@@ -8,6 +8,7 @@ describe('GET user route', () => {
     return request(app)
       .get(`/api/v1/users/${_id}`)
       .then(res => {
+        expect(res.body).toEqual(expect.any(Object));
         expect(res.body).toEqual({
           _id: expect.any(String),
           name: expect.any(String),
