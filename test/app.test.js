@@ -57,4 +57,14 @@ describe('POST session route', () => {
         expect(res.body.message).toEqual('Could not find user');
       });
   });
+
+  it('returns an error when the password is not correct for a valid email', () => {
+    return request(app)
+      .post('/api/v1/tokens')
+      .send({ email: 'jack@test.com', password: 'notcorrect' })
+      .then(res => {
+        expect(res.status).toEqual(422);
+        expect(res.body.message).toEqual('Password not valid');
+      });
+  });
 });
