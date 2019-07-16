@@ -20,6 +20,21 @@ describe('GET user route', () => {
 });
 
 describe('POST user route', () => {
+  it('creates and returns a new user', () => {
+    return request(app)
+      .post('/api/v1/users')
+      .send({ name: 'test', email: 'test@test.com', password: 'test' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'test',
+          email: 'test@test.com',
+          __v: 0
+        });
+        expect(res.status).toEqual(200);
+      });
+  });
+
   it('returns an error for an incorrect form submission', () => {
     return request(app)
       .post('/api/v1/users')
