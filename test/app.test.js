@@ -13,6 +13,7 @@ describe('GET user route', () => {
           _id: expect.any(String),
           name: expect.any(String),
           email: expect.any(String),
+          hash: expect.any(String),
           __v: 0
         });
         expect(res.status).toEqual(200);
@@ -21,6 +22,14 @@ describe('GET user route', () => {
 });
 
 describe('POST user route', () => {
+  it('returns an error for an incorrect form submission', () => {
+    return request(app)
+      .post('/api/v1/users')
+      .then(res => {
+        expect(res.status).toEqual(400);
+      });
+  });
+
   it('creates and returns a new user', () => {
     return request(app)
       .post('/api/v1/users')
@@ -30,17 +39,10 @@ describe('POST user route', () => {
           _id: expect.any(String),
           name: 'test',
           email: 'test@test.com',
+          hash: expect.any(String),
           __v: 0
         });
         expect(res.status).toEqual(200);
-      });
-  });
-
-  it('returns an error for an incorrect form submission', () => {
-    return request(app)
-      .post('/api/v1/users')
-      .then(res => {
-        expect(res.status).toEqual(400);
       });
   });
 });

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../lib/models/User');
-const Login = require('../lib/models/Login');
 
 const seedUsers = [
   {
@@ -18,11 +17,8 @@ const seedUsers = [
 function seedData() {
   return Promise.all(seedUsers.map(user => {
     const { name, email, password } = user;
-    return User.create({ name, email })
-      .then(res => {
-        const hash = bcrypt.hashSync(password);
-        Login.create({ email, hash, _id: res._id });
-      });
+    const hash = bcrypt.hashSync(password);
+    return User.create({ name, email, hash });
   }));
 }
 
