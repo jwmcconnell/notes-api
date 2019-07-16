@@ -46,3 +46,15 @@ describe('POST user route', () => {
       });
   });
 });
+
+describe('POST session route', () => {
+  it('returns an error when it can`t find the user', () => {
+    return request(app)
+      .post('/api/v1/tokens')
+      .send({ email: 'jack@notfound.com', password: 'cookies' })
+      .then(res => {
+        expect(res.status).toEqual(404);
+        expect(res.body.message).toEqual('Could not find user');
+      });
+  });
+});
